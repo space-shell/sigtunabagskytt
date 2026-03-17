@@ -9,6 +9,12 @@ import path from 'path';
 export default defineConfig({
   site: 'https://www.sigtunabagskytte.se',
 
+  // Disable origin check — site URL is the final domain but deployment runs on sbk.spaceshell.xyz
+  // for now. Re-enable once DNS is cut over to www.sigtunabagskytte.se.
+  security: {
+    checkOrigin: false,
+  },
+
   // Static output by default; individual routes opt-in to SSR with `export const prerender = false`
   output: 'static',
 
