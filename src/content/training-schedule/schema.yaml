@@ -1,0 +1,34 @@
+sessions:
+  - location: indoor
+    dayOfWeek: måndag
+    startTime: "18:00"
+    endTime: "20:00"
+    audience: alla
+    isSeasonal: false
+    notes: Eddaskolan – inomhus
+
+  - location: indoor
+    dayOfWeek: söndag
+    startTime: "15:00"
+    endTime: "17:00"
+    audience: alla
+    isSeasonal: false
+    notes: Eddaskolan – inomhus
+
+  - location: outdoor
+    dayOfWeek: måndag
+    startTime: "18:00"
+    endTime: "20:00"
+    audience: alla
+    isSeasonal: true
+    seasonLabel: Maj–december (väderberoende)
+    notes: Rävsta skjutbana – utomhus
+
+  - location: outdoor
+    dayOfWeek: söndag
+    startTime: "15:00"
+    endTime: "17:00"
+    audience: alla
+    isSeasonal: true
+    seasonLabel: Maj–december (väderberoende)
+    notes: Rävsta skjutbana – utomhus

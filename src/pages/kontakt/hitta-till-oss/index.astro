@@ -1,0 +1,124 @@
+---
+/**
+ * Hitta till oss (Find us) — locations and directions
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { SUMMER_LOCATION, WINTER_LOCATION } from '@utils/constants';
+
+const seoProps = buildSeoProps({
+  title: 'Hitta till oss',
+  description:
+    'Hitta till Sigtuna Bågskytteklubb – Rävsta skjutbana (sommar) och Eddaskolan (vinter) i Märsta.',
+  canonical: `${SITE_URL}/kontakt/hitta-till-oss/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Kontakt', url: `${SITE_URL}/kontakt/` },
+    { name: 'Hitta till oss', url: `${SITE_URL}/kontakt/hitta-till-oss/` },
+  ]),
+];
+---
+
+<Page
+  {...seoProps}
+  title="Hitta till oss"
+  breadcrumb={[{ label: 'Kontakt', href: '/kontakt/' }]}
+  jsonLd={jsonLd}
+>
+
+  <p class="section-subheading mb-10 max-w-xl">
+    Vi tränar på två platser beroende på årstid. Sommar utomhus på Rävsta skjutbana,
+    vinter inomhus på Eddaskolan.
+  </p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+    <!-- Summer location -->
+    <section class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+      <div class="bg-forest-700 px-6 py-4">
+        <p class="text-forest-200 text-xs font-semibold uppercase tracking-wider mb-1">Sommar · Maj–December</p>
+        <h2 class="font-display font-bold text-xl text-white">{SUMMER_LOCATION.name}</h2>
+      </div>
+      <div class="p-6">
+        <address class="not-italic mb-4">
+          <p class="text-neutral-900 font-medium">{SUMMER_LOCATION.address}</p>
+          <p class="text-neutral-600">{SUMMER_LOCATION.postalCode} {SUMMER_LOCATION.city}</p>
+        </address>
+
+        <p class="text-sm text-neutral-600 mb-5 leading-relaxed">
+          Rävsta skjutbana ligger strax utanför Märsta. Kör mot Rävsta och följ skyltar till skjutbanan.
+          Parkering finns vid banan.
+        </p>
+
+        {SUMMER_LOCATION.mapsUrl && (
+          <a
+            href={SUMMER_LOCATION.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary text-sm inline-flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Öppna i Google Maps
+          </a>
+        )}
+      </div>
+    </section>
+
+    <!-- Winter location -->
+    <section class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+      <div class="bg-blue-700 px-6 py-4">
+        <p class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-1">Vinter · Januari–April</p>
+        <h2 class="font-display font-bold text-xl text-white">{WINTER_LOCATION.name}</h2>
+      </div>
+      <div class="p-6">
+        <address class="not-italic mb-4">
+          <p class="text-neutral-900 font-medium">{WINTER_LOCATION.city}</p>
+        </address>
+
+        <p class="text-sm text-neutral-600 mb-5 leading-relaxed">
+          Eddaskolan ligger i centrala Märsta. Kontakta oss för mer specifik information om ingång
+          och lokal.
+        </p>
+
+        {WINTER_LOCATION.mapsUrl && (
+          <a
+            href={WINTER_LOCATION.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary text-sm inline-flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Öppna i Google Maps
+          </a>
+        )}
+      </div>
+    </section>
+
+  </div>
+
+  <!-- General transport info -->
+  <section class="mt-10 bg-parchment-50 border border-neutral-200 rounded-xl p-6">
+    <h2 class="font-display font-bold text-lg mb-3">Med kollektivtrafik</h2>
+    <p class="text-sm text-neutral-600 leading-relaxed mb-2">
+      Märsta station nås med pendeltåg (linje 4) från Stockholm C på ca 40 minuter.
+      Därifrån går buss till Eddaskolan. Till Rävsta skjutbana rekommenderas bil eller cykel.
+    </p>
+    <p class="text-sm text-neutral-500">
+      Kontakta oss om du behöver hjälp med transport – vi hjälper gärna till.
+    </p>
+  </section>
+
+  <div class="mt-8">
+    <a href="/kontakt/" class="btn-secondary">← Kontakt</a>
+  </div>
+
+</Page>

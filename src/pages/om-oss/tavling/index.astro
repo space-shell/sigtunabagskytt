@@ -1,0 +1,128 @@
+---
+/**
+ * Tävling (Competition) — events and competition page
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getCollection } from 'astro:content';
+import { formatDateShort } from '@utils/dates';
+
+const seoProps = buildSeoProps({
+  title: 'Tävling',
+  description:
+    'Tävlingsverksamhet i Sigtuna Bågskytteklubb – kommande tävlingar, evenemang och Thors 3D.',
+  canonical: `${SITE_URL}/om-oss/tavling/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Om oss', url: `${SITE_URL}/om-oss/` },
+    { name: 'Tävling', url: `${SITE_URL}/om-oss/tavling/` },
+  ]),
+];
+
+const allEvents = await getCollection('events');
+const now = new Date();
+
+const upcomingEvents = allEvents
+  .filter((e) => e.data.status === 'upcoming' && e.data.eventDate >= now)
+  .sort((a, b) => a.data.eventDate.valueOf() - b.data.eventDate.valueOf());
+
+const pastEvents = allEvents
+  .filter((e) => e.data.status === 'completed' || e.data.eventDate < now)
+  .sort((a, b) => b.data.eventDate.valueOf() - a.data.eventDate.valueOf())
+  .slice(0, 5);
+---
+
+<Page
+  {...seoProps}
+  title="Tävling"
+  breadcrumb={[{ label: 'Om oss', href: '/om-oss/' }]}
+  jsonLd={jsonLd}
+>
+
+  <p class="section-subheading mb-10 max-w-xl">
+    Sigtuna Bågskytteklubb deltar i distriktets tävlingar och arrangerar egna evenemang,
+    däribland <strong>Thors 3D</strong> – en uppskattad 3D-tävling på Rävsta skjutbana.
+  </p>
+
+  <!-- Upcoming events -->
+  <section class="mb-12">
+    <h2 class="font-display font-bold text-xl mb-6">Kommande tävlingar &amp; evenemang</h2>
+
+    {upcomingEvents.length === 0 ? (
+      <div class="bg-parchment-50 border border-neutral-200 rounded-xl p-8 text-center">
+        <p class="text-neutral-500">Inga kommande tävlingar inlagda just nu.</p>
+        <p class="text-sm text-neutral-400 mt-2">Följ oss på Facebook för aktuell information.</p>
+      </div>
+    ) : (
+      <div class="space-y-4">
+        {upcomingEvents.map((event) => (
+          <article class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex flex-col sm:flex-row sm:items-start gap-4">
+            <div class="shrink-0 text-center bg-forest-50 rounded-lg px-4 py-3 min-w-[5rem]">
+              <p class="text-xs font-semibold text-forest-600 uppercase tracking-wider">
+                {formatDateShort(event.data.eventDate).split(' ')[1]}
+              </p>
+              <p class="text-2xl font-bold text-forest-800 leading-none">
+                {event.data.eventDate.getDate()}
+              </p>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-display font-bold text-lg text-neutral-900 mb-1">
+                {event.data.title}
+              </h3>
+              <p class="text-sm text-neutral-600 mb-1">
+                <span class="font-medium">Plats:</span> {event.data.location}
+              </p>
+              {event.data.registrationDeadline && (
+                <p class="text-sm text-neutral-500">
+                  Anmälningsstopp: {formatDateShort(event.data.registrationDeadline)}
+                </p>
+              )}
+            </div>
+            {event.data.registrationUrl && (
+              <a
+                href={event.data.registrationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary text-sm shrink-0"
+              >
+                Anmäl dig
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <!-- Thors 3D info box -->
+  <section class="bg-forest-50 border border-forest-200 rounded-xl p-6 mb-12">
+    <h2 class="font-display font-bold text-xl text-forest-800 mb-3">Thors 3D</h2>
+    <p class="text-neutral-700 leading-relaxed mb-3">
+      Thors 3D är vår egna 3D-tävling som arrangeras på Rävsta skjutbana. Tävlingen är öppen
+      för alla klasser och nivåer – recurve, compound och långbåge.
+    </p>
+    <p class="text-neutral-600 text-sm">
+      Datum och anmälningsinfo annonseras i god tid på Facebook och här på webbplatsen.
+    </p>
+  </section>
+
+  <!-- Past events -->
+  {pastEvents.length > 0 && (
+    <section>
+      <h2 class="font-display font-bold text-xl mb-4">Tidigare evenemang</h2>
+      <ul class="space-y-2">
+        {pastEvents.map((event) => (
+          <li class="flex items-center gap-3 text-sm text-neutral-600 py-2 border-b border-neutral-100 last:border-0">
+            <span class="text-neutral-400 shrink-0 w-24">{formatDateShort(event.data.eventDate)}</span>
+            <span class="font-medium text-neutral-700">{event.data.title}</span>
+            <span class="text-neutral-400">· {event.data.location}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+</Page>

@@ -1,0 +1,77 @@
+---
+/**
+ * Styrelse (Board members) page
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getEntry } from 'astro:content';
+import { formatDateLong } from '@utils/dates';
+
+const seoProps = buildSeoProps({
+  title: 'Styrelse',
+  description: 'Styrelsen i Sigtuna Bågskytteklubb – valda vid senaste årsmötet.',
+  canonical: `${SITE_URL}/om-oss/styrelse/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Om oss', url: `${SITE_URL}/om-oss/` },
+    { name: 'Styrelse', url: `${SITE_URL}/om-oss/styrelse/` },
+  ]),
+];
+
+const board = await getEntry('board', 'styrelse');
+if (!board) throw new Error('board/styrelse.yaml is missing');
+const { members, lastElected } = board.data;
+---
+
+<Page
+  {...seoProps}
+  title="Styrelse"
+  breadcrumb={[{ label: 'Om oss', href: '/om-oss/' }]}
+  jsonLd={jsonLd}
+>
+
+  {lastElected && (
+    <p class="text-sm text-neutral-500 mb-8">
+      Styrelsen valdes vid årsmötet {formatDateLong(lastElected)}.
+    </p>
+  )}
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+    {members.map((member) => (
+      <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5">
+        <p class="text-xs font-semibold uppercase tracking-wider text-forest-600 mb-1">{member.role}</p>
+        <h2 class="font-display font-bold text-lg text-neutral-900 mb-2">{member.name}</h2>
+        {member.showContact && (
+          <div class="space-y-1 text-sm text-neutral-600">
+            {member.email && (
+              <p>
+                <a href={`mailto:${member.email}`} class="hover:text-forest-700 transition-colors">
+                  {member.email}
+                </a>
+              </p>
+            )}
+            {member.phone && (
+              <p>
+                <a href={`tel:${member.phone.replace(/\s/g, '')}`} class="hover:text-forest-700 transition-colors">
+                  {member.phone}
+                </a>
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <div class="bg-parchment-50 border border-neutral-200 rounded-xl p-6 max-w-xl">
+    <h2 class="font-display font-bold text-base mb-2">Kontakta styrelsen</h2>
+    <p class="text-sm text-neutral-600 mb-3">
+      Allmänna frågor och funderingar kan skickas till klubbens e-post.
+    </p>
+    <a href="/kontakt/" class="btn-primary text-sm">Kontaktformulär →</a>
+  </div>
+
+</Page>

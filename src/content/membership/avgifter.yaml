@@ -1,0 +1,42 @@
+fees:
+  - category: Senior
+    priceKr: 750
+    description: Vuxen medlem, 18 år och äldre
+    isFamilyDiscount: false
+
+  - category: Junior
+    priceKr: 550
+    description: Ungdomsmedlem, upp till 17 år
+    isFamilyDiscount: false
+
+  - category: Stödmedlem
+    priceKr: 100
+    description: Stöd för klubben utan aktivt deltagande
+    isFamilyDiscount: false
+
+  - category: Familj – 2:a familjemedlem
+    priceKr: 600
+    description: Senior med familjerabatt (-150 kr)
+    isFamilyDiscount: true
+
+  - category: Familj – 3:e+ familjemedlem
+    priceKr: 375
+    description: 50% rabatt på ordinarie avgift
+    isFamilyDiscount: true
+
+familyDiscountNotes: |
+  Familjerabatt gäller för familjemedlemmar som bor på samma adress.
+  - 2:a familjemedlem: -150 kr rabatt
+  - 3:e och fler familjemedlemmar: 50% av ordinarie avgift
+
+paymentSwish: "123 5767 595"
+paymentBankgiro: "673-5740"
+paymentNotes: |
+  Betala via Swish (123 5767 595) eller bankgiro (BG 673-5740).
+  Märk betalningen med ditt namn.
+
+  **Friskvård:** Bågskyttning är en godkänd friskvårdsaktivitet. Kontakta din arbetsgivare
+  om du vill nyttja din friskvårdsförmån – 100 kr utgör träningsdelen av medlemsavgiften.
+
+renewalPeriod: 1 januari – 31 mars
+trialDeduction: "100 kr (provavgiften dras av om du väljer att bli medlem)"

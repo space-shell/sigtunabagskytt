@@ -1,0 +1,61 @@
+---
+import Page from '@layouts/Page.astro';
+import { getCollection } from 'astro:content';
+import { formatDateShort } from '@utils/dates';
+import { buildSeoProps } from '@utils/seo';
+
+const seoProps = buildSeoProps({
+  title: 'Nyheter',
+  description: 'Senaste nytt och meddelanden från Sigtuna Bågskytteklubb.',
+  canonical: 'https://www.sigtunabagskytte.se/nyheter/',
+});
+
+const allNews = await getCollection('news', ({ data }) => !data.draft);
+const sortedNews = allNews.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+
+<Page
+  {...seoProps}
+  breadcrumb={[]}
+>
+  <h1 class="section-heading mb-2">Nyheter</h1>
+  <p class="section-subheading mb-10">Meddelanden och uppdateringar från klubben</p>
+
+  {sortedNews.length === 0 ? (
+    <p class="text-neutral-500">Inga nyheter publicerade ännu.</p>
+  ) : (
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {sortedNews.map((post) => (
+        <article class="card group">
+          {post.data.featuredImage && (
+            <div class="aspect-video overflow-hidden">
+              <img
+                src={post.data.featuredImage as unknown as string}
+                alt={post.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+          )}
+          <div class="p-5">
+            <time class="text-xs text-neutral-500 font-medium">
+              {formatDateShort(post.data.publishDate)}
+            </time>
+            <h2 class="font-display font-bold text-lg mt-1 mb-2 leading-tight group-hover:text-forest-700 transition-colors">
+              <a href={`/nyheter/${post.slug}/`} class="stretched-link">
+                {post.data.title}
+              </a>
+            </h2>
+            {post.data.excerpt && (
+              <p class="text-neutral-600 text-sm leading-relaxed line-clamp-3">
+                {post.data.excerpt}
+              </p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  )}
+</Page>

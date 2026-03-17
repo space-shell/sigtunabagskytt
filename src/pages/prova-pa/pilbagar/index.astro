@@ -1,0 +1,66 @@
+---
+/**
+ * Pilbågstyper (Bow Types) — listing page
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getCollection } from 'astro:content';
+
+const seoProps = buildSeoProps({
+  title: 'Pilbågstyper',
+  description:
+    'Lär dig om de olika pilbågstyperna – recurve, compound och långbåge. Välj den typ som passar dig.',
+  canonical: `${SITE_URL}/prova-pa/pilbagar/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Prova på', url: `${SITE_URL}/prova-pa/` },
+    { name: 'Pilbågstyper', url: `${SITE_URL}/prova-pa/pilbagar/` },
+  ]),
+];
+
+const bowTypes = (await getCollection('bow-types')).sort(
+  (a, b) => a.data.displayOrder - b.data.displayOrder
+);
+---
+
+<Page
+  {...seoProps}
+  title="Pilbågstyper"
+  breadcrumb={[{ label: 'Prova på', href: '/prova-pa/' }]}
+  jsonLd={jsonLd}
+>
+  <p class="section-subheading mb-10">
+    Det finns tre huvudtyper av pilbågar i modern bågskyttning. Alla nybörjare börjar oftast med recurve,
+    men vi välkomnar alla typer.
+  </p>
+
+  <div class="grid grid-cols-1 gap-8">
+    {bowTypes.map((bow) => (
+      <article class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+        <div class="p-6 sm:p-8">
+          <h2 class="font-display font-bold text-2xl text-neutral-900 mb-2">
+            <a href={`/prova-pa/pilbagar/${bow.slug}/`} class="hover:text-forest-700 transition-colors">
+              {bow.data.title}
+            </a>
+          </h2>
+          <p class="text-neutral-600 leading-relaxed mb-4">{bow.data.shortDescription}</p>
+          <a href={`/prova-pa/pilbagar/${bow.slug}/`} class="btn-secondary text-sm">
+            Läs mer om {bow.data.title}
+          </a>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="mt-10 p-6 bg-parchment-50 rounded-xl border border-neutral-200">
+    <h2 class="font-display font-bold text-lg mb-2">Osäker på vilken typ du ska börja med?</h2>
+    <p class="text-neutral-600 text-sm mb-4">
+      De flesta nybörjare börjar med recurve – det är den vanligaste typen och den som används vid OS.
+      Under prova på-tillfällena hjälper vi dig hitta rätt.
+    </p>
+    <a href="/prova-pa/" class="btn-primary text-sm">← Tillbaka till Prova på</a>
+  </div>
+</Page>

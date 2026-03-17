@@ -1,0 +1,40 @@
+---
+/**
+ * Base.astro — Root layout that wraps every page.
+ * Includes BaseHead, Header, Footer, and global styles.
+ */
+import BaseHead from '@components/layout/BaseHead.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import type { SeoProps } from '@utils/seo';
+import '@styles/global.css';
+
+interface Props extends SeoProps {
+  jsonLd?: object[];
+}
+
+const { jsonLd, ...seoProps } = Astro.props;
+---
+
+<!doctype html>
+<html lang="sv" class="scroll-smooth">
+  <head>
+    <BaseHead {...seoProps} jsonLd={jsonLd} />
+  </head>
+  <body class="flex flex-col min-h-screen bg-white text-neutral-900">
+    <Header />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Skip to main content link (accessibility) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50
+             focus:px-4 focus:py-2 focus:bg-forest-600 focus:text-white focus:rounded-md"
+    >
+      Hoppa till innehållet
+    </a>
+  </body>
+</html>

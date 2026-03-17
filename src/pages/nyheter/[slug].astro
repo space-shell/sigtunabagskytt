@@ -1,0 +1,25 @@
+---
+import NewsPost from '@layouts/NewsPost.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<NewsPost
+  title={post.data.title}
+  publishDate={post.data.publishDate}
+  excerpt={post.data.excerpt}
+  featuredImage={post.data.featuredImage as unknown as string | undefined}
+  slug={post.slug}
+>
+  <Content />
+</NewsPost>

@@ -1,0 +1,152 @@
+---
+/**
+ * Träning (Training) — schedule page
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getEntry } from 'astro:content';
+import { SUMMER_LOCATION, WINTER_LOCATION } from '@utils/constants';
+
+const seoProps = buildSeoProps({
+  title: 'Träning',
+  description:
+    'Träningsschema för Sigtuna Bågskytteklubb – inomhus på Eddaskolan och utomhus på Rävsta skjutbana.',
+  canonical: `${SITE_URL}/om-oss/traning/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Om oss', url: `${SITE_URL}/om-oss/` },
+    { name: 'Träning', url: `${SITE_URL}/om-oss/traning/` },
+  ]),
+];
+
+const schedule = await getEntry('training-schedule', 'schema');
+if (!schedule) throw new Error('training-schedule/schema.yaml is missing');
+const { sessions } = schedule.data;
+
+const indoorSessions = sessions.filter((s) => s.location === 'indoor');
+const outdoorSessions = sessions.filter((s) => s.location === 'outdoor');
+
+const dayOrder = ['måndag', 'tisdag', 'onsdag', 'torsdag', 'fredag', 'lördag', 'söndag'];
+const sortSessions = (arr: typeof sessions) =>
+  [...arr].sort((a, b) => dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek));
+---
+
+<Page
+  {...seoProps}
+  title="Träning"
+  breadcrumb={[{ label: 'Om oss', href: '/om-oss/' }]}
+  jsonLd={jsonLd}
+>
+  <p class="section-subheading mb-10 max-w-xl">
+    Vi tränar hela året på två platser beroende på säsong. Alla är välkomna oavsett nivå.
+  </p>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+
+    <!-- Indoor / Winter -->
+    <section class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+      <div class="bg-blue-700 px-6 py-4">
+        <p class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-1">Vinter · Jan–Apr</p>
+        <h2 class="font-display font-bold text-xl text-white">{WINTER_LOCATION.name}</h2>
+        <p class="text-blue-200 text-sm">{WINTER_LOCATION.city}</p>
+      </div>
+      <div class="p-6">
+        {sortSessions(indoorSessions).length === 0 ? (
+          <p class="text-neutral-500 text-sm">Inga inomhuspass inlagda.</p>
+        ) : (
+          <ul class="space-y-3">
+            {sortSessions(indoorSessions).map((s) => (
+              <li class="flex items-start gap-3">
+                <div class="w-24 shrink-0">
+                  <span class="font-semibold text-neutral-900 capitalize">{s.dayOfWeek}</span>
+                </div>
+                <div>
+                  <span class="text-forest-700 font-medium">{s.startTime}–{s.endTime}</span>
+                  {s.audience !== 'alla' && (
+                    <span class="ml-2 text-xs bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full capitalize">
+                      {s.audience}
+                    </span>
+                  )}
+                  {s.notes && <p class="text-xs text-neutral-500 mt-0.5">{s.notes}</p>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {WINTER_LOCATION.mapsUrl && (
+          <a
+            href={WINTER_LOCATION.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block mt-5 text-sm text-forest-600 hover:text-forest-800 font-medium transition-colors"
+          >
+            Öppna i Google Maps →
+          </a>
+        )}
+      </div>
+    </section>
+
+    <!-- Outdoor / Summer -->
+    <section class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden">
+      <div class="bg-forest-700 px-6 py-4">
+        <p class="text-forest-200 text-xs font-semibold uppercase tracking-wider mb-1">Sommar · Maj–Dec</p>
+        <h2 class="font-display font-bold text-xl text-white">{SUMMER_LOCATION.name}</h2>
+        <p class="text-forest-200 text-sm">{SUMMER_LOCATION.address}, {SUMMER_LOCATION.city}</p>
+      </div>
+      <div class="p-6">
+        {sortSessions(outdoorSessions).length === 0 ? (
+          <p class="text-neutral-500 text-sm">Inga utomhuspass inlagda.</p>
+        ) : (
+          <ul class="space-y-3">
+            {sortSessions(outdoorSessions).map((s) => (
+              <li class="flex items-start gap-3">
+                <div class="w-24 shrink-0">
+                  <span class="font-semibold text-neutral-900 capitalize">{s.dayOfWeek}</span>
+                </div>
+                <div>
+                  <span class="text-forest-700 font-medium">{s.startTime}–{s.endTime}</span>
+                  {s.audience !== 'alla' && (
+                    <span class="ml-2 text-xs bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-full capitalize">
+                      {s.audience}
+                    </span>
+                  )}
+                  {s.isSeasonal && s.seasonLabel && (
+                    <p class="text-xs text-neutral-500 mt-0.5">{s.seasonLabel}</p>
+                  )}
+                  {s.notes && <p class="text-xs text-neutral-500 mt-0.5">{s.notes}</p>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {SUMMER_LOCATION.mapsUrl && (
+          <a
+            href={SUMMER_LOCATION.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block mt-5 text-sm text-forest-600 hover:text-forest-800 font-medium transition-colors"
+          >
+            Öppna i Google Maps →
+          </a>
+        )}
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Notes -->
+  <div class="bg-parchment-50 border border-neutral-200 rounded-xl p-6 max-w-2xl mb-8">
+    <h2 class="font-display font-bold text-base mb-2">Bra att veta</h2>
+    <ul class="text-sm text-neutral-600 space-y-1 list-disc list-inside">
+      <li>Utomhusträning ställs in vid dåligt väder – följ Facebook för aktuell info</li>
+      <li>Ta med egna pilar om du har; annars finns klubbpilar att låna</li>
+      <li>Nybörjare är välkomna att titta förbi – kontakta oss gärna i förväg</li>
+    </ul>
+  </div>
+
+  <a href="/kontakt/" class="btn-secondary">Frågor om träningen? Kontakta oss →</a>
+
+</Page>

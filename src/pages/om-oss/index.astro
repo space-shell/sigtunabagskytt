@@ -1,0 +1,97 @@
+---
+/**
+ * Om oss (About us) — overview page
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { CLUB_NAME, CLUB_FOUNDED } from '@utils/constants';
+
+const seoProps = buildSeoProps({
+  title: 'Om oss',
+  description:
+    'Sigtuna Bågskytteklubb grundades 1979 och håller till i Märsta. Läs om klubben, medlemskap, träning och tävling.',
+  canonical: `${SITE_URL}/om-oss/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Om oss', url: `${SITE_URL}/om-oss/` },
+  ]),
+];
+
+const sections = [
+  {
+    title: 'Medlemskap',
+    href: '/om-oss/medlemskap/',
+    description: 'Avgifter, betalningssätt och familjerabatter. Bli en del av klubben.',
+    icon: '🎫',
+  },
+  {
+    title: 'Träning',
+    href: '/om-oss/traning/',
+    description: 'Träningsschema för inomhus och utomhus – vi tränar hela året.',
+    icon: '🏹',
+  },
+  {
+    title: 'Tävling',
+    href: '/om-oss/tavling/',
+    description: 'Kommande tävlingar och evenemang. Vi arrangerar Thors 3D.',
+    icon: '🏆',
+  },
+  {
+    title: 'Styrelse',
+    href: '/om-oss/styrelse/',
+    description: 'Möt klubbens styrelse – valda vid senaste årsmötet.',
+    icon: '👥',
+  },
+];
+---
+
+<Page
+  {...seoProps}
+  title="Om oss"
+  breadcrumb={[]}
+  jsonLd={jsonLd}
+>
+
+  <!-- Intro text -->
+  <div class="max-w-2xl mb-12">
+    <p class="text-lg text-neutral-600 leading-relaxed mb-4">
+      {CLUB_NAME} grundades {CLUB_FOUNDED} och håller till i Märsta, Sigtuna. Vi erbjuder bågskyttning
+      för alla nivåer och åldrar – från nybörjare till tävlingsskytt.
+    </p>
+    <p class="text-neutral-600 leading-relaxed">
+      Sommarsäsongen tränar vi utomhus på Rävsta skjutbana, och vintertid inomhus i Eddaskolan.
+      Klubben är ansluten till Svenska Bågskytteförbundet.
+    </p>
+  </div>
+
+  <!-- Navigation cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+    {sections.map(({ title, href, description, icon }) => (
+      <a
+        href={href}
+        class="card group flex items-start gap-4 p-6 hover:shadow-md transition-shadow"
+      >
+        <span class="text-3xl shrink-0" aria-hidden="true">{icon}</span>
+        <div>
+          <h2 class="font-display font-bold text-lg text-neutral-900 group-hover:text-forest-700 transition-colors mb-1">
+            {title}
+          </h2>
+          <p class="text-neutral-600 text-sm leading-relaxed">{description}</p>
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <!-- CTA -->
+  <div class="bg-forest-50 border border-forest-200 rounded-xl p-6 max-w-xl">
+    <h2 class="font-display font-bold text-lg mb-2">Nyfiken på att börja?</h2>
+    <p class="text-neutral-600 text-sm mb-4">
+      Prova på bågskyttning tre gånger för 100 kr innan du bestämmer dig för att bli medlem.
+    </p>
+    <a href="/prova-pa/" class="btn-primary text-sm">Läs om Prova på →</a>
+  </div>
+
+</Page>

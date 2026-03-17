@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block Keystatic admin from search engines
+Disallow: /keystatic/
+
+Sitemap: https://www.sigtunabagskytte.se/sitemap-index.xml

@@ -1,0 +1,63 @@
+---
+/**
+ * Individual bow type page — /prova-pa/pilbagar/[slug]/
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const bowTypes = await getCollection('bow-types');
+  return bowTypes.map((bow) => ({
+    params: { slug: bow.slug },
+    props: { bow },
+  }));
+}
+
+const { bow } = Astro.props;
+const { Content } = await render(bow);
+
+const canonicalUrl = `${SITE_URL}/prova-pa/pilbagar/${bow.slug}/`;
+
+const seoProps = buildSeoProps({
+  title: bow.data.title,
+  description: bow.data.shortDescription,
+  canonical: canonicalUrl,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Prova på', url: `${SITE_URL}/prova-pa/` },
+    { name: 'Pilbågstyper', url: `${SITE_URL}/prova-pa/pilbagar/` },
+    { name: bow.data.title, url: canonicalUrl },
+  ]),
+];
+---
+
+<Page
+  {...seoProps}
+  title={bow.data.title}
+  breadcrumb={[
+    { label: 'Prova på', href: '/prova-pa/' },
+    { label: 'Pilbågstyper', href: '/prova-pa/pilbagar/' },
+  ]}
+  jsonLd={jsonLd}
+>
+  <p class="text-lg text-neutral-600 leading-relaxed mb-8 max-w-2xl">
+    {bow.data.shortDescription}
+  </p>
+
+  <div class="prose-club max-w-2xl">
+    <Content />
+  </div>
+
+  <div class="mt-10 flex flex-col sm:flex-row gap-3">
+    <a href="/prova-pa/" class="btn-primary">
+      Prova på bågskyttning
+    </a>
+    <a href="/prova-pa/pilbagar/" class="btn-secondary">
+      ← Alla pilbågstyper
+    </a>
+  </div>
+</Page>

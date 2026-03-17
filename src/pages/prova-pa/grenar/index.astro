@@ -1,0 +1,58 @@
+---
+/**
+ * Grenar (Disciplines) — listing page
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getCollection } from 'astro:content';
+
+const seoProps = buildSeoProps({
+  title: 'Grenar',
+  description:
+    'Utforska bågskyttets olika grenar – 3D, fält, jakt, monterat och clout. Hitta den gren som passar dig.',
+  canonical: `${SITE_URL}/prova-pa/grenar/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Prova på', url: `${SITE_URL}/prova-pa/` },
+    { name: 'Grenar', url: `${SITE_URL}/prova-pa/grenar/` },
+  ]),
+];
+
+const disciplines = (await getCollection('disciplines')).sort(
+  (a, b) => a.data.displayOrder - b.data.displayOrder
+);
+---
+
+<Page
+  {...seoProps}
+  title="Grenar"
+  breadcrumb={[{ label: 'Prova på', href: '/prova-pa/' }]}
+  jsonLd={jsonLd}
+>
+  <p class="section-subheading mb-10">
+    Bågskyttning finns i många olika former. Utomhus i skog och mark, på skjutbana, till häst eller på
+    långt håll – det finns en gren för alla intressen.
+  </p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    {disciplines.map((disc) => (
+      <article class="card group p-6 hover:shadow-md transition-shadow">
+        <h2 class="font-display font-bold text-xl text-neutral-900 mb-2 group-hover:text-forest-700 transition-colors">
+          <a href={`/prova-pa/grenar/${disc.slug}/`} class="stretched-link">
+            {disc.data.title}
+          </a>
+        </h2>
+        <p class="text-neutral-600 text-sm leading-relaxed">
+          {disc.data.shortDescription}
+        </p>
+      </article>
+    ))}
+  </div>
+
+  <div class="mt-10">
+    <a href="/prova-pa/" class="btn-secondary">← Tillbaka till Prova på</a>
+  </div>
+</Page>

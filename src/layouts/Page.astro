@@ -1,0 +1,61 @@
+---
+/**
+ * Page.astro — Standard content page layout with optional hero and breadcrumb.
+ */
+import Base from './Base.astro';
+import type { SeoProps } from '@utils/seo';
+
+interface Props extends SeoProps {
+  title: string;
+  heroImage?: string;
+  heroAlt?: string;
+  breadcrumb?: Array<{ label: string; href: string }>;
+  jsonLd?: object[];
+}
+
+const { title, heroImage, heroAlt, breadcrumb, jsonLd, ...seoProps } = Astro.props;
+---
+
+<Base title={title} jsonLd={jsonLd} {...seoProps}>
+  <!-- Breadcrumb -->
+  {breadcrumb && breadcrumb.length > 0 && (
+    <nav class="bg-parchment-50 border-b border-neutral-200" aria-label="Brödsmulor">
+      <div class="container-content py-2">
+        <ol class="flex items-center gap-1 text-sm text-neutral-500 flex-wrap">
+          <li>
+            <a href="/" class="hover:text-forest-700 transition-colors">Hem</a>
+          </li>
+          {breadcrumb.map((crumb) => (
+            <li class="flex items-center gap-1">
+              <span aria-hidden="true">/</span>
+              <a href={crumb.href} class="hover:text-forest-700 transition-colors">
+                {crumb.label}
+              </a>
+            </li>
+          ))}
+          <li class="flex items-center gap-1 text-neutral-900 font-medium">
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{title}</span>
+          </li>
+        </ol>
+      </div>
+    </nav>
+  )}
+
+  <!-- Hero image (optional) -->
+  {heroImage && (
+    <div class="w-full h-48 sm:h-64 lg:h-80 overflow-hidden">
+      <img
+        src={heroImage}
+        alt={heroAlt ?? ''}
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+    </div>
+  )}
+
+  <!-- Page content -->
+  <div class="container-content py-10 lg:py-16">
+    <slot />
+  </div>
+</Base>

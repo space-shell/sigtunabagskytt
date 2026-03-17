@@ -1,0 +1,20 @@
+name = "sigtunabagskytt"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Pages configuration
+pages_build_output_dir = "dist"
+
+# R2 bucket for media/image uploads
+[[r2_buckets]]
+binding = "R2_ASSETS"
+bucket_name = "sbk-assets"
+
+# Environment variables (non-secret)
+[vars]
+PUBLIC_SITE_URL = "https://www.sigtunabagskytte.se"
+PUBLIC_CLUB_NAME = "Sigtuna Bågskytteklubb"
+
+# Preview environment
+[env.preview]
+vars = { PUBLIC_SITE_URL = "https://preview.sigtunabagskytte-dev.pages.dev" }
