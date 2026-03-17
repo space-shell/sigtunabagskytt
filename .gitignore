@@ -17,6 +17,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# Nix / direnv
+.direnv/
+
 # Editor
 .vscode/settings.json
 .idea/
