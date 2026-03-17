@@ -1,11 +1,20 @@
 import { config, collection, singleton, fields } from '@keystatic/core';
 
 export default config({
-  // Local mode for development. Switch to 'github' before production launch.
-  // See .env.example for required KEYSTATIC_GITHUB_CLIENT_ID / SECRET vars.
-  storage: {
-    kind: 'local',
-  },
+  // Local mode in dev, GitHub mode in production (Cloudflare Pages).
+  // GitHub mode requires KEYSTATIC_GITHUB_CLIENT_ID, KEYSTATIC_GITHUB_CLIENT_SECRET,
+  // and KEYSTATIC_SECRET set as secrets in the Cloudflare Pages dashboard.
+  storage: import.meta.env.PROD
+    ? {
+        kind: 'github',
+        repo: {
+          owner: 'space-shell',
+          name: 'sigtunabagskytt',
+        },
+      }
+    : {
+        kind: 'local',
+      },
 
   // ----- COLLECTIONS --------------------------------------------------------
 
