@@ -75,6 +75,7 @@ GitHub Actions (`.github/workflows/deploy.yml`) runs CI only (type check + build
 - [ ] Test contact form end-to-end in production
 - [ ] Set up `www.sigtunabagskytte.se` as custom domain in Cloudflare Pages
 - [ ] DNS cutover: point `sigtunabagskytte.se` from WordPress host to Cloudflare Pages
+- [ ] After DNS cutover: re-enable `security: { checkOrigin: true }` in `astro.config.mjs` (currently disabled because staging domain `sbk.spaceshell.xyz` doesn't match the configured `site` URL — the check silently returns empty responses for all SSR routes)
 
 ### Polish
 - [ ] Add real images to R2 bucket for CMS-managed content (news, events)
