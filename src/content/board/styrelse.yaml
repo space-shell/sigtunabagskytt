@@ -1,0 +1,24 @@
+# Styrelse – Sigtuna Bågskytteklubb
+# Uppdatera efter varje årsmöte.
+# OBS: Sätt showContact: true bara om personen har gett sitt samtycke (GDPR).
+
+lastElected: "2024-01-01"
+
+members:
+  - name: "[Ordförande – uppdatera via CMS]"
+    role: Ordförande
+    email: ""
+    phone: ""
+    showContact: false
+
+  - name: "[Kassör – uppdatera via CMS]"
+    role: Kassör
+    email: ""
+    phone: ""
+    showContact: false
+
+  - name: "[Sekreterare – uppdatera via CMS]"
+    role: Sekreterare
+    email: ""
+    phone: ""
+    showContact: false

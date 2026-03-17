@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS Custom Properties ────────────────────────────────────────────────────
+   These are the design tokens. Swapping theme-modern.css vs theme-faithful.css
+   changes these values without touching component code.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* Default: Modern Nature/Outdoors theme */
+:root {
+  /* Brand colors */
+  --color-primary:        theme('colors.forest.600');
+  --color-primary-dark:   theme('colors.forest.700');
+  --color-primary-light:  theme('colors.forest.500');
+  --color-accent:         theme('colors.bark.500');
+  --color-accent-dark:    theme('colors.bark.700');
+
+  /* Backgrounds */
+  --color-bg:             theme('colors.white');
+  --color-bg-subtle:      theme('colors.parchment.50');
+  --color-bg-muted:       theme('colors.parchment.100');
+
+  /* Text */
+  --color-text:           theme('colors.neutral.900');
+  --color-text-muted:     theme('colors.neutral.500');
+  --color-text-on-primary: theme('colors.white');
+
+  /* Borders */
+  --color-border:         theme('colors.neutral.200');
+
+  /* Typography */
+  --font-sans:   theme('fontFamily.sans');
+  --font-display: theme('fontFamily.display');
+
+  /* Layout */
+  --header-height: 4rem;
+  --max-content-width: 72rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply font-sans text-base text-neutral-900 bg-white antialiased;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  /* Focus styles — keyboard navigation */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-forest-600;
+  }
+
+  /* Smooth image rendering */
+  img {
+    @apply max-w-full h-auto;
+  }
+
+  /* Remove default button styles */
+  button {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Content width container */
+  .container-content {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5
+           font-semibold text-sm transition-colors duration-150
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-forest-600 text-white
+           hover:bg-forest-700
+           focus-visible:outline-forest-600;
+  }
+
+  .btn-secondary {
+    @apply btn bg-transparent text-forest-700 border border-forest-600
+           hover:bg-forest-50
+           focus-visible:outline-forest-600;
+  }
+
+  .btn-accent {
+    @apply btn bg-bark-500 text-white
+           hover:bg-bark-700
+           focus-visible:outline-bark-500;
+  }
+
+  /* ── Cards ── */
+  .card {
+    @apply rounded-xl border border-neutral-200 bg-white shadow-sm
+           transition-shadow hover:shadow-md overflow-hidden;
+  }
+
+  /* ── Section headings ── */
+  .section-heading {
+    @apply font-display text-2xl font-bold text-neutral-900
+           sm:text-3xl;
+  }
+
+  .section-subheading {
+    @apply text-lg text-neutral-600 mt-2;
+  }
+
+  /* ── Prose wrapper for CMS rich text ── */
+  .prose-club {
+    @apply prose prose-neutral max-w-none
+           prose-headings:font-display
+           prose-a:text-forest-600 prose-a:no-underline hover:prose-a:underline
+           prose-img:rounded-lg;
+  }
+}
