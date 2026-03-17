@@ -9,6 +9,8 @@
 
 /* Default: Modern Nature/Outdoors theme */
 :root {
+  color-scheme: light;
+
   /* Brand colors */
   --color-primary:        theme('colors.forest.600');
   --color-primary-dark:   theme('colors.forest.700');
