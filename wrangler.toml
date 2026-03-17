@@ -7,7 +7,7 @@ pages_build_output_dir = "dist"
 
 # R2 bucket for media/image uploads
 [[r2_buckets]]
-binding = "ASSETS"
+binding = "R2_ASSETS"
 bucket_name = "sbk-assets"
 
 # Environment variables (non-secret)

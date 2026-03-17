@@ -3,6 +3,7 @@ import cloudflare from '@astrojs/cloudflare';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import keystatic from '@keystatic/astro';
+import path from 'path';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,7 +14,7 @@ export default defineConfig({
 
   adapter: cloudflare({
     platformProxy: {
-      enabled: true,
+      enabled: false,
     },
   }),
 
@@ -37,6 +38,11 @@ export default defineConfig({
   vite: {
     ssr: {
       external: ['node:crypto'],
+    },
+    resolve: {
+      alias: {
+        '@styles': path.resolve('./src/styles'),
+      },
     },
   },
 });

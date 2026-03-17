@@ -1,0 +1,25 @@
+---
+import Base from '@layouts/Base.astro';
+import { buildSeoProps } from '@utils/seo';
+
+const seoProps = buildSeoProps({
+  title: 'Sidan hittades inte – Sigtuna Bågskytteklubb',
+  description: 'Sidan du söker finns inte.',
+});
+---
+
+<Base {...seoProps}>
+  <main id="main-content" class="min-h-[60vh] flex items-center justify-center px-4">
+    <div class="text-center max-w-md">
+      <p class="text-6xl font-display font-bold text-forest-600 mb-4">404</p>
+      <h1 class="text-2xl font-bold text-neutral-900 mb-3">Sidan hittades inte</h1>
+      <p class="text-neutral-600 mb-8">
+        Sidan du söker verkar inte finnas. Den kan ha flyttats eller tagits bort.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/" class="btn-primary">Gå till startsidan</a>
+        <a href="/kontakt/" class="btn-secondary">Kontakta oss</a>
+      </div>
+    </div>
+  </main>
+</Base>

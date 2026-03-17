@@ -383,7 +383,7 @@ export default config({
     // ── Try archery program (Prova på) ───────────────────────────────────────
     tryArchery: singleton({
       label: 'Prova på – Information',
-      path: 'src/content/settings/prova-pa',
+      path: 'src/content/trial-program/index',
       format: 'yaml',
       schema: {
         priceKr: fields.number({

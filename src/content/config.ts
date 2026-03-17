@@ -108,6 +108,23 @@ const boardCollection = defineCollection({
   }),
 });
 
+// ── Trial Program / Prova på (singleton stored as YAML) ──────────────────────
+const trialProgramCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    priceKr: z.number(),
+    sessionCount: z.number(),
+    minimumAge: z.number(),
+    scheduleText: z.string(),
+    scheduleTime: z.string(),
+    location: z.string(),
+    bookingEmail: z.string(),
+    introText: z.string().optional(),
+    whatToExpectText: z.string().optional(),
+    equipmentProvidedText: z.string().optional(),
+  }),
+});
+
 // ── Site Settings (singleton stored as YAML) ─────────────────────────────────
 const settingsCollection = defineCollection({
   type: 'data',
@@ -142,4 +159,5 @@ export const collections = {
   membership: membershipCollection,
   board: boardCollection,
   settings: settingsCollection,
+  'trial-program': trialProgramCollection,
 };
