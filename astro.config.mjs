@@ -16,6 +16,12 @@ export default defineConfig({
     platformProxy: {
       enabled: false,
     },
+    routes: {
+      extend: {
+        // /keystatic/* is auto-included but bare /keystatic is not matched by /*
+        include: [{ pattern: '/keystatic' }],
+      },
+    },
   }),
 
   integrations: [
