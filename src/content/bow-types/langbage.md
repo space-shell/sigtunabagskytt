@@ -1,24 +1,22 @@
 ---
 title: Långbåge
-shortDescription: Den klassiska trätbågen med anor från medeltiden – skjuts utan sikte och kräver känsla och teknik.
+shortDescription: Den traditionella träbågen – enkel, meditativ och nära naturens material. Kräver tålamod och känsla snarare än teknik.
 displayOrder: 2
 ---
 
-Långbågen är den historiska pilbågen – ett stycke trä, en sträng och en pil. Den skjuts utan sikte, utan stabilisatorer och utan pekfingerskydd. Allt handlar om känsla, teknik och träning.
+Långbågen är den äldsta bågtypen och har använts i tusentals år. Det är en enkel, rak träbåge utan sikten eller stabilisatorer – precis som det var förr.
 
-## Varför långbåge?
+## Vad är en långbåge?
 
-- **Tradition och historia** – bågskyttningens ursprung
-- **Utmaning** – kräver mer känsla och instinktiv siktning
-- **Enkelt och tidlöst** – minimal utrustning
-- **Gemenskap** – stark tradition och gemenskap bland långbågeskyttar
+En traditionell långbåge är gjord i ett enda stycke trä, vanligtvis yew, idegran, ask eller en kombination av träslag. Moderna varianter kan vara laminerade. Det finns inga hjälpmedel som sikten eller clicker – skytten använder instinkten och sin känsla.
 
-## Hur långbågen fungerar
+## Varför välja långbåge?
 
-Långbågen är en enkel men krävande båge. Utan sikte måste skytten lita på känsla och muskelminne – en teknik som kallas instinktiv siktning. Det tar tid att lära sig men är extremt belönande.
+- **Tradition och enkelhet** – känn kontakten med en historisk bågform
+- **Meditativt** – fokus på känsla och närvaro, inte tekniska detaljer
+- **Naturmaterial** – vacker utrustning i trä och naturfiber
+- **Utmanade** – kräver mer träning för precision, men ger stor tillfredsställelse
 
-Tävlingsformerna för långbåge inkluderar bland annat fältbågskytte och 3D-skytte.
+## Discipliner
 
-## I klubben
-
-Sigtuna Bågskytteklubb välkomnar långbågeskyttar av alla nivåer. Vi har ett par klubblångbågar att provskjuta på, men de flesta långbågeskyttar väljer att skaffa sin egen båge tidigt.
+Långbåge lämpar sig bäst för fältbana, 3D och jaktbana – discipliner där instinktiv siktning och naturliga terrängförhållanden är en del av upplevelsen.
