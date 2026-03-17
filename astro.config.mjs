@@ -3,6 +3,7 @@ import cloudflare from '@astrojs/cloudflare';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import keystatic from '@keystatic/astro';
+import react from '@astrojs/react';
 import path from 'path';
 
 // https://astro.build/config
@@ -35,6 +36,7 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     sitemap(),
+    react(),
     // Keystatic CMS admin UI + API
     keystatic(),
   ],
