@@ -7,12 +7,22 @@ These are the authoritative reference for:
 - Content recovery if the WordPress export is incomplete
 - Design reference for both the faithful recreation and modern redesign themes
 
-## Capture Details
+## Status
+
+> **Screenshots not yet captured.** The development environment does not have outbound internet access. Run the capture script from any machine with internet access:
+>
+> ```bash
+> npm run screenshots
+> ```
+>
+> or directly: `node scripts/capture-screenshots.cjs`
+
+## Capture Details (target)
 
 | Field | Value |
 |-------|-------|
-| Captured | 2026-03-17 |
-| Tool | Playwright (automated headless browser) |
+| Target date | Before migration launch |
+| Tool | Playwright (automated headless browser — `scripts/capture-screenshots.cjs`) |
 | Desktop viewport | 1440×900 |
 | Mobile viewport | 390×844 |
 | Format | PNG |
@@ -59,4 +69,4 @@ These are the authoritative reference for:
 
 - Full-page scrolling captures — entire page height captured, not just the visible viewport
 - Screenshots taken before any WordPress updates during the migration period
-- URL bar visible in metadata (see Playwright script at `scripts/capture-screenshots.js`)
+- URL bar visible in metadata (see Playwright script at `scripts/capture-screenshots.cjs`)
