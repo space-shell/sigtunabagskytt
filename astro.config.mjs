@@ -8,8 +8,8 @@ import keystatic from '@keystatic/astro';
 export default defineConfig({
   site: 'https://www.sigtunabagskytte.se',
 
-  // Hybrid: static pages by default, SSR for Keystatic API routes
-  output: 'hybrid',
+  // Static output by default; individual routes opt-in to SSR with `export const prerender = false`
+  output: 'static',
 
   adapter: cloudflare({
     platformProxy: {

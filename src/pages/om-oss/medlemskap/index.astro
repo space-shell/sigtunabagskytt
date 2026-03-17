@@ -1,0 +1,140 @@
+---
+/**
+ * Medlemskap (Membership) — fees and joining information
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getEntry } from 'astro:content';
+
+const seoProps = buildSeoProps({
+  title: 'Medlemskap',
+  description:
+    'Bli medlem i Sigtuna Bågskytteklubb. Se avgifter, familjerabatter och hur du betalar.',
+  canonical: `${SITE_URL}/om-oss/medlemskap/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Om oss', url: `${SITE_URL}/om-oss/` },
+    { name: 'Medlemskap', url: `${SITE_URL}/om-oss/medlemskap/` },
+  ]),
+];
+
+const membership = await getEntry('membership', 'avgifter');
+const { fees, paymentSwish, paymentBankgiro, renewalPeriod, trialDeduction } = membership.data;
+
+const regularFees = fees.filter((f) => !f.isFamilyDiscount);
+const familyFees = fees.filter((f) => f.isFamilyDiscount);
+---
+
+<Page
+  {...seoProps}
+  title="Medlemskap"
+  breadcrumb={[{ label: 'Om oss', href: '/om-oss/' }]}
+  jsonLd={jsonLd}
+>
+
+  <p class="section-subheading mb-10 max-w-xl">
+    Bli en del av Sigtuna Bågskytteklubb. Medlemskapet ger dig tillgång till alla träningar
+    och tävlingsverksamhet.
+  </p>
+
+  <!-- Membership fees table -->
+  <section class="mb-10">
+    <h2 class="font-display font-bold text-xl mb-4">Årsavgifter {new Date().getFullYear()}</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="bg-parchment-100 text-left">
+            <th class="px-4 py-3 font-semibold text-neutral-700 border border-neutral-200">Kategori</th>
+            <th class="px-4 py-3 font-semibold text-neutral-700 border border-neutral-200">Pris/år</th>
+            <th class="px-4 py-3 font-semibold text-neutral-700 border border-neutral-200 hidden sm:table-cell">Beskrivning</th>
+          </tr>
+        </thead>
+        <tbody>
+          {regularFees.map((fee, i) => (
+            <tr class:list={['border border-neutral-200', i % 2 === 0 ? 'bg-white' : 'bg-parchment-50']}>
+              <td class="px-4 py-3 font-medium text-neutral-900">{fee.category}</td>
+              <td class="px-4 py-3 font-bold text-forest-700">{fee.priceKr} kr</td>
+              <td class="px-4 py-3 text-neutral-600 hidden sm:table-cell">{fee.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    {trialDeduction && (
+      <p class="text-sm text-neutral-500 mt-2 italic">* {trialDeduction}</p>
+    )}
+  </section>
+
+  <!-- Family discount -->
+  {familyFees.length > 0 && (
+    <section class="mb-10">
+      <h2 class="font-display font-bold text-xl mb-4">Familjerabatt</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="bg-parchment-100 text-left">
+              <th class="px-4 py-3 font-semibold text-neutral-700 border border-neutral-200">Kategori</th>
+              <th class="px-4 py-3 font-semibold text-neutral-700 border border-neutral-200">Pris/år</th>
+              <th class="px-4 py-3 font-semibold text-neutral-700 border border-neutral-200 hidden sm:table-cell">Beskrivning</th>
+            </tr>
+          </thead>
+          <tbody>
+            {familyFees.map((fee, i) => (
+              <tr class:list={['border border-neutral-200', i % 2 === 0 ? 'bg-white' : 'bg-parchment-50']}>
+                <td class="px-4 py-3 font-medium text-neutral-900">{fee.category}</td>
+                <td class="px-4 py-3 font-bold text-forest-700">{fee.priceKr} kr</td>
+                <td class="px-4 py-3 text-neutral-600 hidden sm:table-cell">{fee.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-neutral-600 mt-2">
+        Familjerabatt gäller för familjemedlemmar på samma adress.
+      </p>
+    </section>
+  )}
+
+  <!-- Payment info -->
+  <section class="bg-parchment-50 rounded-xl border border-neutral-200 p-6 mb-10">
+    <h2 class="font-display font-bold text-xl mb-4">Betalning</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+      {paymentSwish && (
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">Swish</p>
+          <p class="font-bold text-lg text-neutral-900">{paymentSwish}</p>
+        </div>
+      )}
+      {paymentBankgiro && (
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">Bankgiro</p>
+          <p class="font-bold text-lg text-neutral-900">BG {paymentBankgiro}</p>
+        </div>
+      )}
+    </div>
+    <p class="text-sm text-neutral-600">Märk betalningen med ditt namn.</p>
+    {renewalPeriod && (
+      <p class="text-sm text-neutral-600 mt-2">
+        <strong>Förnyelseperiod:</strong> {renewalPeriod}
+      </p>
+    )}
+    <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      <p class="text-sm text-blue-800">
+        <strong>Friskvård:</strong> Bågskyttning är en godkänd friskvårdsaktivitet. Kontakta din
+        arbetsgivare om du vill nyttja din friskvårdsförmån – 100 kr utgör träningsdelen av
+        medlemsavgiften.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="flex flex-col sm:flex-row gap-3">
+    <a href="/prova-pa/" class="btn-primary">Prova på innan du bestämmer dig</a>
+    <a href="/kontakt/" class="btn-secondary">Kontakta oss</a>
+  </div>
+
+</Page>

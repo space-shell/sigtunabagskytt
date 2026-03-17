@@ -1,0 +1,140 @@
+---
+/**
+ * Prova på (Try Archery) — overview page
+ */
+import Page from '@layouts/Page.astro';
+import { buildSeoProps, breadcrumbJsonLd, SITE_URL } from '@utils/seo';
+import { getCollection, getEntry } from 'astro:content';
+
+const seoProps = buildSeoProps({
+  title: 'Prova på bågskyttning',
+  description:
+    'Prova på bågskyttning hos Sigtuna Bågskytteklubb – 3 tillfällen för 100 kr. All utrustning ingår. Öppet för alla från 10 år.',
+  canonical: `${SITE_URL}/prova-pa/`,
+});
+
+const jsonLd = [
+  breadcrumbJsonLd([
+    { name: 'Hem', url: `${SITE_URL}/` },
+    { name: 'Prova på', url: `${SITE_URL}/prova-pa/` },
+  ]),
+];
+
+const tryArchery = await getEntry('settings', 'prova-pa');
+const { priceKr, sessionCount, minimumAge, scheduleText, scheduleTime, location, bookingEmail } =
+  tryArchery.data;
+
+const bowTypes = (await getCollection('bow-types')).sort(
+  (a, b) => a.data.displayOrder - b.data.displayOrder
+);
+const disciplines = (await getCollection('disciplines')).sort(
+  (a, b) => a.data.displayOrder - b.data.displayOrder
+);
+---
+
+<Page
+  {...seoProps}
+  title="Prova på bågskyttning"
+  breadcrumb={[]}
+>
+
+  <!-- Intro -->
+  <div class="max-w-2xl mb-12">
+    <h1 class="section-heading mb-3">Prova på bågskyttning</h1>
+    <p class="text-lg text-neutral-600 leading-relaxed mb-4">
+      Välkommen att prova på bågskyttning hos Sigtuna Bågskytteklubb!
+      Du provar <strong>{sessionCount} gånger för {priceKr} kr</strong> – sedan bestämmer du om du vill bli medlem.
+      Provavgiften dras av från din första medlemsavgift.
+    </p>
+    <p class="text-neutral-600">
+      Vi har utrustning för alla. Du behöver inte ta med dig något – kom som du är!
+    </p>
+  </div>
+
+  <!-- Praktisk info -->
+  <section class="bg-forest-50 border border-forest-200 rounded-xl p-6 mb-12 max-w-2xl">
+    <h2 class="font-display font-bold text-xl text-forest-800 mb-4">Praktisk information</h2>
+    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wider text-forest-600 mb-1">Pris</dt>
+        <dd class="text-neutral-900 font-medium">{priceKr} kr för {sessionCount} tillfällen</dd>
+      </div>
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wider text-forest-600 mb-1">Minimiålder</dt>
+        <dd class="text-neutral-900 font-medium">{minimumAge} år</dd>
+      </div>
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wider text-forest-600 mb-1">När</dt>
+        <dd class="text-neutral-900 font-medium">{scheduleText}</dd>
+        <dd class="text-neutral-600 text-sm">Kl {scheduleTime}</dd>
+      </div>
+      <div>
+        <dt class="text-xs font-semibold uppercase tracking-wider text-forest-600 mb-1">Var</dt>
+        <dd class="text-neutral-900 font-medium">{location}</dd>
+      </div>
+    </dl>
+    <div class="mt-5 pt-4 border-t border-forest-200 flex flex-col sm:flex-row gap-3">
+      <a
+        href={`mailto:${bookingEmail}?subject=Prova+på+bågskyttning`}
+        class="btn-primary"
+      >
+        Anmäl intresse via e-post
+      </a>
+      <a href="/kontakt/" class="btn-secondary">
+        Kontakta oss
+      </a>
+    </div>
+  </section>
+
+  <!-- Pilbågstyper -->
+  <section class="mb-14">
+    <div class="flex items-end justify-between mb-6">
+      <div>
+        <h2 class="section-heading">Pilbågstyper</h2>
+        <p class="section-subheading">Vilket skytte passar dig?</p>
+      </div>
+      <a href="/prova-pa/pilbagar/" class="text-forest-600 hover:text-forest-800 font-medium text-sm transition-colors hidden sm:block">
+        Läs mer →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      {bowTypes.map((bow) => (
+        <a href={`/prova-pa/pilbagar/${bow.slug}/`} class="card group block p-6 hover:shadow-md transition-shadow">
+          <h3 class="font-display font-bold text-lg text-neutral-900 mb-2 group-hover:text-forest-700 transition-colors">
+            {bow.data.title}
+          </h3>
+          <p class="text-neutral-600 text-sm leading-relaxed">
+            {bow.data.shortDescription}
+          </p>
+          <span class="inline-block mt-3 text-sm text-forest-600 font-medium">Läs mer →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Grenar -->
+  <section class="mb-12">
+    <div class="flex items-end justify-between mb-6">
+      <div>
+        <h2 class="section-heading">Grenar</h2>
+        <p class="section-subheading">Tävlingsformer och aktiviteter</p>
+      </div>
+      <a href="/prova-pa/grenar/" class="text-forest-600 hover:text-forest-800 font-medium text-sm transition-colors hidden sm:block">
+        Alla grenar →
+      </a>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {disciplines.map((disc) => (
+        <a href={`/prova-pa/grenar/${disc.slug}/`} class="card group block p-5 hover:shadow-md transition-shadow">
+          <h3 class="font-display font-bold text-base text-neutral-900 mb-2 group-hover:text-forest-700 transition-colors">
+            {disc.data.title}
+          </h3>
+          <p class="text-neutral-600 text-sm leading-relaxed line-clamp-2">
+            {disc.data.shortDescription}
+          </p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+</Page>
