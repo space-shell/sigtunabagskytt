@@ -62,6 +62,7 @@ async function capture(page, url, outputPath, viewport) {
 
 (async () => {
   const browser = await chromium.launch({
+    executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
     args: [
       '--disable-web-security',
       '--no-sandbox',
