@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: CI
 
 on:
   push:
@@ -9,13 +9,11 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
-    name: Build & Deploy
+  check:
+    name: Type check & build
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      deployments: write
-      pull-requests: write
 
     steps:
       - name: Checkout repository
@@ -35,18 +33,6 @@ jobs:
 
       - name: Build site
         run: npm run build
-        env:
-          # Keystatic requires these at build time in GitHub mode
-          KEYSTATIC_GITHUB_CLIENT_ID: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_ID }}
-          KEYSTATIC_GITHUB_CLIENT_SECRET: ${{ secrets.KEYSTATIC_GITHUB_CLIENT_SECRET }}
-          KEYSTATIC_SECRET: ${{ secrets.KEYSTATIC_SECRET }}
 
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: sigtunabagskytt
-          directory: dist
-          # Creates a preview deployment for PRs, production for main branch push
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      # Deployment is handled directly by Cloudflare Pages (Git integration).
+      # Clear the deploy command in the Cloudflare Pages dashboard — leave it blank.
