@@ -21,6 +21,7 @@ const jsonLd = [
 ];
 
 const tryArchery = await getEntry('trial-program', 'index');
+if (!tryArchery) throw new Error('trial-program/index.yaml is missing');
 const { priceKr, sessionCount, minimumAge, scheduleText, scheduleTime, location, bookingEmail } =
   tryArchery.data;
 
@@ -34,6 +35,7 @@ const disciplines = (await getCollection('disciplines')).sort(
 
 <Page
   {...seoProps}
+  jsonLd={jsonLd}
   title="Prova på bågskyttning"
   breadcrumb={[]}
 >

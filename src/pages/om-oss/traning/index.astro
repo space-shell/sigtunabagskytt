@@ -23,6 +23,7 @@ const jsonLd = [
 ];
 
 const schedule = await getEntry('training-schedule', 'schema');
+if (!schedule) throw new Error('training-schedule/schema.yaml is missing');
 const { sessions } = schedule.data;
 
 const indoorSessions = sessions.filter((s) => s.location === 'indoor');

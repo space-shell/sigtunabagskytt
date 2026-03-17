@@ -22,6 +22,7 @@ const jsonLd = [
 ];
 
 const board = await getEntry('board', 'styrelse');
+if (!board) throw new Error('board/styrelse.yaml is missing');
 const { members, lastElected } = board.data;
 ---
 

@@ -22,6 +22,7 @@ const jsonLd = [
 ];
 
 const membership = await getEntry('membership', 'avgifter');
+if (!membership) throw new Error('membership/avgifter.yaml is missing');
 const { fees, paymentSwish, paymentBankgiro, renewalPeriod, trialDeduction } = membership.data;
 
 const regularFees = fees.filter((f) => !f.isFamilyDiscount);

@@ -26,7 +26,10 @@ export const WINTER_LOCATION = {
 } as const;
 
 // Navigation structure — used by Header and breadcrumb components
-export const NAV_ITEMS = [
+type NavChild = { readonly label: string; readonly href: string };
+type NavItem = { readonly label: string; readonly href: string; readonly children?: readonly NavChild[] };
+
+export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'Hem', href: '/' },
   { label: 'Nyheter', href: '/nyheter/' },
   {
@@ -52,4 +55,4 @@ export const NAV_ITEMS = [
     href: '/kontakt/',
     children: [{ label: 'Hitta till oss', href: '/kontakt/hitta-till-oss/' }],
   },
-] as const;
+];
