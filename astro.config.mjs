@@ -56,6 +56,9 @@ export default defineConfig({
     resolve: {
       alias: {
         '@styles': path.resolve('./src/styles'),
+        // react-dom/server.browser uses MessageChannel which is unavailable
+        // in Cloudflare Workers. Use the edge variant instead.
+        'react-dom/server': 'react-dom/server.edge',
       },
     },
   },
