@@ -35,15 +35,19 @@ Content lives in `src/content/` as Markdown/YAML. CMS schema defined in `keystat
 
 CMS is live at https://sbk.spaceshell.xyz/keystatic — sign in with the GitHub account that owns the `space-shell/sigtunabagskytt` repo.
 
+> **Important:** Keystatic's GitHub storage mode requires a **GitHub App** (not an OAuth App). GitHub Apps return `expires_in`, `refresh_token`, and `refresh_token_expires_in` in their token exchange response — Keystatic's schema validation requires all three. OAuth Apps do not return these fields, causing "Authorization failed" on login.
+
 ## Deployment
 
 Push to `main` → Cloudflare Pages Git integration auto-builds and deploys.
 GitHub Actions (`.github/workflows/deploy.yml`) runs CI only (type check + build) — it does **not** deploy.
 
-**Cloudflare Pages secrets** (set in dashboard → Settings → Environment variables → Secrets):
-- `KEYSTATIC_GITHUB_CLIENT_ID`
-- `KEYSTATIC_GITHUB_CLIENT_SECRET`
-- `KEYSTATIC_SECRET`
+**Cloudflare Pages secrets** (set via `wrangler pages secret put` or dashboard → Secrets):
+- `KEYSTATIC_GITHUB_CLIENT_ID` — Client ID from the GitHub App
+- `KEYSTATIC_GITHUB_CLIENT_SECRET` — Client secret from the GitHub App
+- `KEYSTATIC_SECRET` — Random 64-char string used to encrypt the refresh token cookie
+
+These are read at runtime via `context.locals.runtime.env` (Cloudflare adapter injects this). They are NOT available via `process.env` for secrets — only `import.meta.env` for build-time vars.
 
 **Cloudflare Pages bindings** (Settings → Functions → R2 bucket bindings):
 - Variable name: `R2_ASSETS` → Bucket: `sbk-assets`
@@ -63,6 +67,20 @@ GitHub Actions (`.github/workflows/deploy.yml`) runs CI only (type check + build
 15 user stories in `User Stories/` covering editorial workflows, visitor needs, and technical requirements.
 
 ## Next Steps
+
+### CMS Authentication (blocker)
+- [ ] Create a **GitHub App** (Settings → Developer settings → GitHub Apps → New GitHub App)
+  - Callback URL: `https://sbk.spaceshell.xyz/api/keystatic/github/oauth/callback`
+  - Permissions: Contents (read+write), Pull requests (read+write)
+  - Disable webhook
+  - Install on `space-shell/sigtunabagskytt` repo
+- [ ] Update Cloudflare Pages secrets with GitHub App Client ID + Client Secret:
+  ```bash
+  npx wrangler pages secret put KEYSTATIC_GITHUB_CLIENT_ID --project-name sigtunabagskytt
+  npx wrangler pages secret put KEYSTATIC_GITHUB_CLIENT_SECRET --project-name sigtunabagskytt
+  ```
+- [ ] Delete the old OAuth App (`sbk-cms`) — no longer needed
+- [ ] Remove temporary debug endpoint `src/pages/api/debug-ks.ts`
 
 ### Content
 - [ ] Fill in board member names via CMS (`/keystatic` → Styrelse)
