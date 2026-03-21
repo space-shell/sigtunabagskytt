@@ -45,6 +45,19 @@ export default {
           300: '#e8d5ad',
           400: '#dbb97d',
         },
+        // Classic/faithful theme — original WordPress site green
+        classic: {
+          50:  '#f3fbdf',
+          100: '#e5f5ba',
+          200: '#cceb7a',
+          300: '#aad846',
+          400: '#8ec52e',
+          500: '#76b82a',  // ← original site primary green
+          600: '#5a9022',
+          700: '#456d1a',
+          800: '#344e14',
+          900: '#253810',
+        },
       },
 
       fontFamily: {
