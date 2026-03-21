@@ -5,7 +5,8 @@
 import Base from '@layouts/Base.astro';
 import { buildSeoProps, sportsClubJsonLd, SITE_URL } from '@utils/seo';
 import { CLUB_NAME, CLUB_EMAIL_HREF } from '@utils/constants';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { getActiveTheme } from '@utils/theme';
 import { formatDateShort } from '@utils/dates';
 
 const seoProps = buildSeoProps({
@@ -15,8 +16,7 @@ const seoProps = buildSeoProps({
   canonical: SITE_URL,
 });
 
-const siteSettings = await getEntry('settings', 'site');
-const theme = siteSettings?.data.activeTheme ?? 'modern';
+const theme = await getActiveTheme();
 
 // Get the 3 most recent news posts
 const allNews = await getCollection('news', ({ data }) => !data.draft);

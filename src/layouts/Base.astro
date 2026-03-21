@@ -10,7 +10,7 @@ import HeaderFaithful from '@components/layout/faithful/Header.astro';
 import FooterFaithful from '@components/layout/faithful/Footer.astro';
 import type { SeoProps } from '@utils/seo';
 import '@styles/global.css';
-import { getEntry } from 'astro:content';
+import { getActiveTheme } from '@utils/theme';
 
 interface Props extends SeoProps {
   jsonLd?: object[];
@@ -18,12 +18,11 @@ interface Props extends SeoProps {
 
 const { jsonLd, ...seoProps } = Astro.props;
 
-const settings = await getEntry('settings', 'site');
-const theme = settings?.data.activeTheme ?? 'modern';
+const theme = await getActiveTheme();
 ---
 
 <!doctype html>
-<html lang="sv" class="scroll-smooth">
+<html lang="sv" class="scroll-smooth" data-theme={theme}>
   <head>
     <BaseHead {...seoProps} jsonLd={jsonLd} />
   </head>
