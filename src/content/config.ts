@@ -147,6 +147,7 @@ const settingsCollection = defineCollection({
       instagram: z.string().url().optional(),
       footerText: z.string().optional(),
       analyticsToken: z.string().optional(),
+      activeTheme: z.enum(['modern', 'faithful']).default('modern'),
     }),
 });
 

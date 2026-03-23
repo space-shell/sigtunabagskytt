@@ -538,6 +538,17 @@ export default config({
           description: 'Valfri. Aktiverar statistik utan cookies.',
           validation: { isRequired: false },
         }),
+
+        activeTheme: fields.select({
+          label: 'Aktivt tema',
+          description:
+            'Välj vilket utseende webbplatsen ska ha. Ändringen börjar gälla efter nästa bygge.',
+          options: [
+            { label: 'Modernt (nytt utseende)', value: 'modern' },
+            { label: 'Klassiskt (originalutseendet)', value: 'faithful' },
+          ],
+          defaultValue: 'modern',
+        }),
       },
     }),
   },

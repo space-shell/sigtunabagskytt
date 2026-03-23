@@ -4,6 +4,7 @@
  */
 import Base from './Base.astro';
 import type { SeoProps } from '@utils/seo';
+import { getActiveTheme } from '@utils/theme';
 
 interface Props extends SeoProps {
   title: string;
@@ -14,21 +15,42 @@ interface Props extends SeoProps {
 }
 
 const { title, heroImage, heroAlt, breadcrumb, jsonLd, ...seoProps } = Astro.props;
+const theme = await getActiveTheme();
 ---
 
 <Base title={title} jsonLd={jsonLd} {...seoProps}>
   <!-- Breadcrumb -->
   {breadcrumb && breadcrumb.length > 0 && (
-    <nav class="bg-parchment-50 border-b border-neutral-200" aria-label="Brödsmulor">
+    <nav
+      class:list={[
+        'border-b',
+        theme === 'faithful'
+          ? 'bg-gray-100 border-gray-200'
+          : 'bg-parchment-50 border-neutral-200',
+      ]}
+      aria-label="Brödsmulor"
+    >
       <div class="container-content py-2">
         <ol class="flex items-center gap-1 text-sm text-neutral-500 flex-wrap">
           <li>
-            <a href="/" class="hover:text-forest-700 transition-colors">Hem</a>
+            <a
+              href="/"
+              class:list={[
+                'transition-colors',
+                theme === 'faithful' ? 'hover:text-classic-600' : 'hover:text-forest-700',
+              ]}
+            >Hem</a>
           </li>
           {breadcrumb.map((crumb) => (
             <li class="flex items-center gap-1">
               <span aria-hidden="true">/</span>
-              <a href={crumb.href} class="hover:text-forest-700 transition-colors">
+              <a
+                href={crumb.href}
+                class:list={[
+                  'transition-colors',
+                  theme === 'faithful' ? 'hover:text-classic-600' : 'hover:text-forest-700',
+                ]}
+              >
                 {crumb.label}
               </a>
             </li>
@@ -56,7 +78,14 @@ const { title, heroImage, heroAlt, breadcrumb, jsonLd, ...seoProps } = Astro.pro
 
   <!-- Page content -->
   <div class="container-content py-10 lg:py-16">
-    <h1 class="font-display text-3xl sm:text-4xl font-bold text-neutral-900 mb-8">{title}</h1>
+    <h1
+      class:list={[
+        'text-3xl sm:text-4xl font-bold text-neutral-900 mb-8',
+        theme === 'faithful' ? '' : 'font-display',
+      ]}
+    >
+      {title}
+    </h1>
     <slot />
   </div>
 </Base>
