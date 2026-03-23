@@ -1,15 +1,14 @@
 clubName: Sigtuna Bågskytteklubb
 tagline: Bågskyttning för alla i Märsta, Sigtuna
 primaryEmail: sigtunabagskytte@gmail.com
-primaryPhone: "0768638329"
+primaryPhone: '0768638329'
 winterLocationName: Eddaskolan
-winterLocationAddress: ""
 winterLocationCity: Märsta
-winterLocationMapsUrl: "https://maps.google.com/?q=Eddaskolan,+Märsta"
+winterLocationMapsUrl: https://maps.google.com/?q=Eddaskolan,+Märsta
 summerLocationName: Rävsta skjutbana
 summerLocationAddress: Rävstvägen 110
 summerLocationCity: Märsta
-summerLocationMapsUrl: "https://maps.google.com/?q=Rävstvägen+110,+195+92+Märsta"
-facebook: "https://www.facebook.com/SigtunaBagskytteklubb"
+summerLocationMapsUrl: https://maps.google.com/?q=Rävstvägen+110,+195+92+Märsta
+facebook: https://www.facebook.com/SigtunaBagskytteklubb
 footerText: Sigtuna Bågskytteklubb – grundad 1979 i Märsta, Sigtuna.
-activeTheme: modern
+activeTheme: faithful
