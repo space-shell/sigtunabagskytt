@@ -33,9 +33,18 @@ Content lives in `src/content/` as Markdown/YAML. CMS schema defined in `keystat
 - **Collections:** `news` (nyheter), `bow-types`, `disciplines`
 - **Singletons:** `training-schedule`, `membership` (avgifter), `board` (styrelse), `trial-program`, `settings` (site)
 
-CMS is live at https://sbk.spaceshell.xyz/keystatic — sign in with the GitHub account that owns the `space-shell/sigtunabagskytt` repo.
+CMS is live at https://sbk.spaceshell.xyz/keystatic — sign in with the GitHub App (`sbk-cms`) installed on the `space-shell` account.
 
-> **Important:** Keystatic's GitHub storage mode requires a **GitHub App** (not an OAuth App). GitHub Apps return `expires_in`, `refresh_token`, and `refresh_token_expires_in` in their token exchange response — Keystatic's schema validation requires all three. OAuth Apps do not return these fields, causing "Authorization failed" on login.
+> **Important:** Keystatic requires a **GitHub App** (not an OAuth App). GitHub Apps return `expires_in`, `refresh_token`, and `refresh_token_expires_in` in their token exchange response — Keystatic's schema validation requires all three. OAuth Apps do not return these fields, causing "Authorization failed" on login.
+
+## Themes
+
+The site supports two themes, toggled via CMS (`Settings → Site` → `activeTheme`):
+
+- **`modern`** (default) — Clean, contemporary design built for the migration
+- **`faithful`** — Pixel-perfect recreation of the original WordPress site
+
+The active theme is stored in `src/content/settings/site.yaml` and read at build/request time via `src/utils/theme.ts`. `Base.astro` conditionally renders `src/components/layout/faithful/` header+footer when `faithful` is active, and applies CSS overrides via `data-theme="faithful"` on `<html>`.
 
 ## Deployment
 
@@ -59,8 +68,12 @@ These are read at runtime via `context.locals.runtime.env` (Cloudflare adapter i
 - `wrangler.toml` — Cloudflare Pages/Workers config (R2 binding, env vars)
 - `public/_redirects` — 301 redirects from old WordPress URLs
 - `public/images/` — Static images (`logo.png`, `hero-home.jpg`)
+- `src/layouts/Base.astro` — Root layout; switches header/footer based on active theme
 - `src/layouts/Page.astro` — Inner page layout (renders `<h1>` from `title` prop)
 - `src/styles/global.css` — Design tokens, button/component classes, `color-scheme: light`
+- `src/utils/theme.ts` — Reads `activeTheme` from CMS settings singleton
+- `src/components/layout/faithful/` — Faithful theme header + footer components
+- `src/content/settings/site.yaml` — Site-wide settings including `activeTheme`
 
 ## User Stories
 
@@ -68,24 +81,11 @@ These are read at runtime via `context.locals.runtime.env` (Cloudflare adapter i
 
 ## Next Steps
 
-### CMS Authentication (blocker)
-- [ ] Create a **GitHub App** (Settings → Developer settings → GitHub Apps → New GitHub App)
-  - Callback URL: `https://sbk.spaceshell.xyz/api/keystatic/github/oauth/callback`
-  - Permissions: Contents (read+write), Pull requests (read+write)
-  - Disable webhook
-  - Install on `space-shell/sigtunabagskytt` repo
-- [ ] Update Cloudflare Pages secrets with GitHub App Client ID + Client Secret:
-  ```bash
-  npx wrangler pages secret put KEYSTATIC_GITHUB_CLIENT_ID --project-name sigtunabagskytt
-  npx wrangler pages secret put KEYSTATIC_GITHUB_CLIENT_SECRET --project-name sigtunabagskytt
-  ```
-- [ ] Delete the old OAuth App (`sbk-cms`) — no longer needed
-- [ ] Remove temporary debug endpoint `src/pages/api/debug-ks.ts`
-
 ### Content
 - [ ] Fill in board member names via CMS (`/keystatic` → Styrelse)
 - [ ] Add more news articles via CMS
 - [ ] Review and update all placeholder content
+- [ ] Decide which theme to go live with (`modern` or `faithful`) — toggle via CMS Settings
 
 ### Technical
 - [ ] Configure Cloudflare Turnstile (contact form spam protection)
