@@ -45,18 +45,18 @@ export default {
           300: '#e8d5ad',
           400: '#dbb97d',
         },
-        // Classic/faithful theme — original WordPress site green
+        // Classic/faithful theme — original WordPress site blue (#299AD1)
         classic: {
-          50:  '#f3fbdf',
-          100: '#e5f5ba',
-          200: '#cceb7a',
-          300: '#aad846',
-          400: '#8ec52e',
-          500: '#76b82a',  // ← original site primary green
-          600: '#5a9022',
-          700: '#456d1a',
-          800: '#344e14',
-          900: '#253810',
+          50:  '#eaf6fc',
+          100: '#c5e8f6',
+          200: '#96d3ee',
+          300: '#5bb9e4',
+          400: '#36a8d8',
+          500: '#299ad1',  // ← original site primary blue
+          600: '#1e7aaa',
+          700: '#165d82',
+          800: '#0f4060',
+          900: '#082540',
         },
       },
 
